@@ -1,7 +1,6 @@
-FROM ubuntu:14.04
-MAINTAINER Container Solutions BV <info@container-solutions.com>
+FROM ubuntu:16.04
 
-RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" > /etc/apt/sources.list.d/openjdk.list && \
+RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu xenial main" > /etc/apt/sources.list.d/openjdk.list && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv 86F44E2A && \
     apt-get update && \
     apt-get -y install openjdk-8-jre-headless curl unzip iptables && \

@@ -2,7 +2,7 @@
 
 if [ "${MINIMESOS_DOCKER_VERSION}" == "" ]
 then
-  echo "Please set MINIMESOS_DOCKER_VERSION before building"
+  echo "ERROR: Please set MINIMESOS_DOCKER_VERSION before building"
   exit 1
 fi
 
@@ -12,29 +12,27 @@ buildImage() {
 
   for role in agent master; do
     echo
-    echo Building containersol/mesos-${role}:${MESOS_VERSION}-${MINIMESOS_DOCKER_VERSION}
+    echo INFO: Building twosigma/mesos-${role}:${MESOS_VERSION}-${MINIMESOS_DOCKER_VERSION}
     docker build \
-      -t containersol/mesos-${role}:${MESOS_VERSION}-${MINIMESOS_DOCKER_VERSION} \
+      -t twosigma/mesos-${role}:${MESOS_VERSION}-${MINIMESOS_DOCKER_VERSION} \
       -f mesos-image/${role}/Dockerfile \
       --build-arg MESOS_VERSION=${MESOS_VERSION}-${MESOSPHERE_TAG} \
       . || exit $?
   done
 }
 
+echo INFO: Building twosigma/mesos-base:${MINIMESOS_DOCKER_VERSION}
 docker build \
-  -t containersol/alpine3.3-java8-jre:v1 \
-  alpine3.3-java8-jre || exit $?
-
-docker build \
-  -t containersol/mesos-base:${MINIMESOS_DOCKER_VERSION} \
+  -t twosigma/mesos-base:${MINIMESOS_DOCKER_VERSION} \
   -f base/Dockerfile \
   . || exit $?
 
 #          Mesos version  Mesosphere tag
-buildImage "0.25.0"       "0.2.70.ubuntu1404"
-buildImage "0.26.0"       "0.2.145.ubuntu1404"
-buildImage "0.27.0"       "0.2.190.ubuntu1404"
-buildImage "0.27.1"       "2.0.226.ubuntu1404"
-buildImage "0.28.0"       "2.0.16.ubuntu1404"
-buildImage "0.28.1"       "2.0.20.ubuntu1404"
-buildImage "1.0.0"	  	  "2.0.89.ubuntu1404"
+buildImage "1.0.0"	  	  "2.0.86.ubuntu1604"
+#buildImage "0.25.0"       "0.2.70.ubuntu1404"
+#buildImage "0.26.0"       "0.2.145.ubuntu1404"
+#buildImage "0.27.0"       "0.2.190.ubuntu1404"
+#buildImage "0.27.1"       "2.0.226.ubuntu1404"
+#buildImage "0.28.0"       "2.0.16.ubuntu1404"
+#buildImage "0.28.1"       "2.0.20.ubuntu1404"
+#buildImage "1.0.0"	  	  "2.0.89.ubuntu1404"
